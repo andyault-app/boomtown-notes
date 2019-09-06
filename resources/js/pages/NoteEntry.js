@@ -4,6 +4,7 @@ const NoteEntry = ({ match, history }) => {
 	const [loading, setLoading] = useState(true);
 	const [note, setNote] = useState(undefined);
 	const [disabled, setDisabled] = useState(false);
+	const [error, setError] = useState(undefined);
 
 	const isNew = match.params.id === 'new';
 
@@ -44,8 +45,10 @@ const NoteEntry = ({ match, history }) => {
 
 	return (
 		<div className="container container-small page">
-			{loading ? (
-				<div>Loading...</div>
+			{error ? (
+				<div className="card w-100">{error}</div>
+			) : loading ? (
+				<div className="text-center">Loading...</div>
 			) : (
 				<form onSubmit={onSubmit} method="post" autoComplete="off">
 					<div className="card">

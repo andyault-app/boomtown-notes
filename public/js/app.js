@@ -71006,12 +71006,61 @@ var AppHeader = function AppHeader() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 var Index = function Index() {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true),
+      _useState2 = _slicedToArray(_useState, 2),
+      loading = _useState2[0],
+      setLoading = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(undefined),
+      _useState4 = _slicedToArray(_useState3, 2),
+      notes = _useState4[0],
+      setNotes = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(undefined),
+      _useState6 = _slicedToArray(_useState5, 2),
+      error = _useState6[0],
+      setError = _useState6[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    axios.get('/api/notes').then(function (response) {
+      setNotes(response.data);
+      setLoading(false);
+    })["catch"](setError);
+  }, []);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "container page"
-  }, "Index");
+  }, error ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "card w-100"
+  }, error) : loading ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "text-center"
+  }, "Loading...") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "notes"
+  }, notes.map(function (note, i) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      to: '/notes/' + note.id,
+      key: i,
+      className: "card w-25 note"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+      className: "note-title"
+    }, note.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "note-content"
+    }, note.content), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+      className: "note-updated"
+    }, "Updated ", note.updated_at));
+  })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Index);
@@ -71093,6 +71142,11 @@ var NoteEntry = function NoteEntry(_ref) {
       disabled = _useState6[0],
       setDisabled = _useState6[1];
 
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(undefined),
+      _useState8 = _slicedToArray(_useState7, 2),
+      error = _useState8[0],
+      setError = _useState8[1];
+
   var isNew = match.params.id === 'new';
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     if (isNew) {
@@ -71144,7 +71198,11 @@ var NoteEntry = function NoteEntry(_ref) {
 
   return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "container container-small page"
-  }, loading ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, "Loading...") : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+  }, error ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "card w-100"
+  }, error) : loading ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "text-center"
+  }, "Loading...") : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
     onSubmit: onSubmit,
     method: "post",
     autoComplete: "off"
