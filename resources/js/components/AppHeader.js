@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const AppHeader = () => {
+	//list of header links
 	const links = {
 		'/notes': 'List',
 		'/notes/new': 'Add New'

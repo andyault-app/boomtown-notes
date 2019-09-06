@@ -108,12 +108,12 @@ body {
 .notes {
   display: flex;
   flex-wrap: wrap;
+  margin-right: -1rem;
 }
 
 .note {
-  width: 20%;
-  margin-right: 1rem;
-  flex-grow: 1;
+  width: calc(25% - 1rem);
+  margin: 0 1rem 1rem 0;
   color: unset;
   overflow: hidden;
   text-decoration: none;
@@ -121,6 +121,7 @@ body {
 
 .note-title,
 .note-content {
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -148,6 +149,10 @@ body {
   height: 100%;
   justify-content: center;
   align-items: center;
+}
+
+.entry-title {
+  margin: 0;
 }
 
 .form-group:not(:last-child) {

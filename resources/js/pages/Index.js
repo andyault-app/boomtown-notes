@@ -7,6 +7,7 @@ const Index = () => {
 	const [error, setError] = useState(undefined);
 
 	useEffect(() => {
+		//get the list of notes
 		axios.get('/api/notes')
 			.then(response => {
 				setNotes(response.data);
@@ -24,7 +25,7 @@ const Index = () => {
 			) : (
 				<div className="notes">
 					{notes.map((note, i) => (
-						<Link to={'/notes/' + note.id} key={i} className="card w-25 note">
+						<Link to={'/notes/' + note.id} key={i} className="card note">
 							<h2 className="note-title">{note.title}</h2>
 							<p className="note-content">{note.content}</p>
 							<h4 className="note-updated">Updated {note.updated_at}</h4>

@@ -2,21 +2,29 @@ import React, { useState, useEffect } from 'react';
 
 const NoteEntry = ({ match, history }) => {
 	const [loading, setLoading] = useState(true);
-	const [note, setNote] = useState(undefined);
+	const [note, setNote] = useState({});
 	const [disabled, setDisabled] = useState(false);
 	const [error, setError] = useState(undefined);
 
 	const isNew = match.params.id === 'new';
 
+	//on page load
 	useEffect(() => {
 		if (isNew) {
 			setLoading(false);
 			return;
 		}
 
-		//todo - editing
+		//if not new, fetch
+		axios.get('/api/notes/' + match.params.id)
+			.then(response => {
+				setNote(response.data);
+				setLoading(false);
+			})
+			.catch(setError);
 	}, [match.params.id]);
 
+	//on submit
 	const onSubmit = async (event) => {
 		event.preventDefault();
 
@@ -29,18 +37,32 @@ const NoteEntry = ({ match, history }) => {
 		};
 
 		//submit
-		const endpoint = '/api/notes';
-
-		// if (!isNew)
-		// 	endpoint += '/' + 
-
 		setDisabled(true);
 
-		axios.post(endpoint, body)
-			.then(response => {
-				history.push('/notes/' + response.data);
-			})
-			.catch(console.error);
+		let endpoint = '/api/notes';
+
+		if (isNew) {
+			//if this is new, post
+			axios.post(endpoint, body)
+				.then(response => {
+					history.push('/notes/' + response.data);
+				})
+				.catch(setError);
+		} else {
+			//if we're editing, put
+			endpoint += '/' + match.params.id;
+
+			axios.put(endpoint, body)
+				.then(response => {
+					//we could just update what's on the page...
+					// setNote(body);
+					// setDisabled(false);
+
+					//but instead, go back to the list page
+					history.push('/notes');
+				})
+				.catch(setError);
+		}
 	};
 
 	return (
@@ -52,7 +74,7 @@ const NoteEntry = ({ match, history }) => {
 			) : (
 				<form onSubmit={onSubmit} method="post" autoComplete="off">
 					<div className="card">
-						<h1>{isNew ? 'New Note' : 'Edit Note'}</h1>
+						<h1 className="entry-title">{isNew ? 'New' : 'Edit'} Note</h1>
 
 						<div className="form-group">
 							<label>
@@ -63,6 +85,7 @@ const NoteEntry = ({ match, history }) => {
 									id="title"
 									name="title"
 									placeholder="Groceries"
+									defaultValue={note.title}
 									className="form-input"
 									autoComplete="off"
 									disabled={disabled}
@@ -79,10 +102,11 @@ const NoteEntry = ({ match, history }) => {
 									id="content"
 									name="content"
 									placeholder="* Milk&#10;* Eggs&#10;..."
+									defaultValue={note.content}
 									className="form-input textarea"
 									autoComplete="off"
 									disabled={disabled}
-								></textarea>
+								/>
 							</label>
 						</div>
 

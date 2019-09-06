@@ -7,29 +7,43 @@ use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
-    public function index() {
-    	$ret = Note::all();
-
-    	return $ret->toJson();
-    }
-
-    public function show() {
-    	$ret = Note::where('id', 1)
-    		->get();
+	//list all notes
+	public function index() {
+		$ret = Note::all();
 
 		return $ret->toJson();
-    }
+	}
 
-    public function store(Request $request) {
-    	$note = new Note;
+	//grab a note by id
+	public function show($id) {
+		$ret = Note::find($id);
 
-    	$note->title = $request->title;
-    	$note->content = $request->content;
+		return $ret->toJson();
+	}
 
-    	$note->save();
+	//save a new note
+	public function store(Request $request) {
+		$note = new Note;
 
-    	return $note->id;
-    }
+		$note->title = $request->title;
+		$note->content = $request->content;
 
-    public function update() {}
+		$note->save();
+
+		return $note->id;
+	}
+
+	//update an existing note
+	public function update($id, Request $request) {
+		$note = Note::find($id);
+
+		//todo: error if note not found
+
+		$note->title = $request->title;
+		$note->content = $request->content;
+
+		$note->save();
+
+		return $note->id;
+	}
 }

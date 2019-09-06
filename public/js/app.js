@@ -70961,6 +70961,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var AppHeader = function AppHeader() {
+  //list of header links
   var links = {
     '/notes': 'List',
     '/notes/new': 'Add New'
@@ -71035,6 +71036,7 @@ var Index = function Index() {
       setError = _useState6[1];
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    //get the list of notes
     axios.get('/api/notes').then(function (response) {
       setNotes(response.data);
       setLoading(false);
@@ -71052,7 +71054,7 @@ var Index = function Index() {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
       to: '/notes/' + note.id,
       key: i,
-      className: "card w-25 note"
+      className: "card note"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
       className: "note-title"
     }, note.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
@@ -71132,7 +71134,7 @@ var NoteEntry = function NoteEntry(_ref) {
       loading = _useState2[0],
       setLoading = _useState2[1];
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(undefined),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])({}),
       _useState4 = _slicedToArray(_useState3, 2),
       note = _useState4[0],
       setNote = _useState4[1];
@@ -71147,14 +71149,20 @@ var NoteEntry = function NoteEntry(_ref) {
       error = _useState8[0],
       setError = _useState8[1];
 
-  var isNew = match.params.id === 'new';
+  var isNew = match.params.id === 'new'; //on page load
+
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     if (isNew) {
       setLoading(false);
       return;
-    } //todo - editing
+    } //if not new, fetch
 
-  }, [match.params.id]);
+
+    axios.get('/api/notes/' + match.params.id).then(function (response) {
+      setNote(response.data);
+      setLoading(false);
+    })["catch"](setError);
+  }, [match.params.id]); //on submit
 
   var onSubmit =
   /*#__PURE__*/
@@ -71175,13 +71183,25 @@ var NoteEntry = function NoteEntry(_ref) {
                 'content': formData.get('content')
               }; //submit
 
-              endpoint = '/api/notes'; // if (!isNew)
-              // 	endpoint += '/' + 
-
               setDisabled(true);
-              axios.post(endpoint, body).then(function (response) {
-                history.push('/notes/' + response.data);
-              })["catch"](console.error);
+              endpoint = '/api/notes';
+
+              if (isNew) {
+                //if this is new, post
+                axios.post(endpoint, body).then(function (response) {
+                  history.push('/notes/' + response.data);
+                })["catch"](setError);
+              } else {
+                //if we're editing, put
+                endpoint += '/' + match.params.id;
+                axios.put(endpoint, body).then(function (response) {
+                  //we could just update what's on the page...
+                  // setNote(body);
+                  // setDisabled(false);
+                  //but instead, go back to the list page
+                  history.push('/notes');
+                })["catch"](setError);
+              }
 
             case 6:
             case "end":
@@ -71208,7 +71228,9 @@ var NoteEntry = function NoteEntry(_ref) {
     autoComplete: "off"
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "card"
-  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, isNew ? 'New Note' : 'Edit Note'), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
+    className: "entry-title"
+  }, isNew ? 'New' : 'Edit', " Note"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "form-group"
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "form-label"
@@ -71217,6 +71239,7 @@ var NoteEntry = function NoteEntry(_ref) {
     id: "title",
     name: "title",
     placeholder: "Groceries",
+    defaultValue: note.title,
     className: "form-input",
     autoComplete: "off",
     disabled: disabled,
@@ -71229,6 +71252,7 @@ var NoteEntry = function NoteEntry(_ref) {
     id: "content",
     name: "content",
     placeholder: "* Milk\n* Eggs\n...",
+    defaultValue: note.content,
     className: "form-input textarea",
     autoComplete: "off",
     disabled: disabled
