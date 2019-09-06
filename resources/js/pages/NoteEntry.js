@@ -5,30 +5,63 @@ const NoteEntry = ({ match, history }) => {
 	const [note, setNote] = useState({});
 	const [disabled, setDisabled] = useState(false);
 	const [error, setError] = useState(undefined);
+	const [formError, setFormError] = useState(undefined);
 
 	const isNew = match.params.id === 'new';
 
 	//on page load
 	useEffect(() => {
+		setError(undefined);
+		setFormError(undefined);
+		setDisabled(false);
+		setNote({});
+
 		if (isNew) {
-			setLoading(false);
-			return;
+			//have to wait one frame so that the page "loads"
+			setTimeout(() => {
+				setLoading(false);
+			}, 0);
+		} else {
+			//if not new, fetch
+			axios.get('/api/notes/' + match.params.id)
+				.then(response => {
+					setNote(response.data);
+					setLoading(false);
+				})
+				.catch(setError);
 		}
 
-		//if not new, fetch
-		axios.get('/api/notes/' + match.params.id)
-			.then(response => {
-				setNote(response.data);
-				setLoading(false);
-			})
-			.catch(setError);
+		return () => {
+			setLoading(true);
+		};
 	}, [match.params.id]);
+
+	const validate = (formData) => {
+		const errs = [];
+
+		if (!formData.get('title'))
+			errs.push('Title is required');
+
+		if (!formData.get('content'))
+			errs.push('Content is required');
+
+		if (errs.length) {
+			setFormError(errs.join('\n'));
+			return false;
+		}
+
+		return true;
+	};
 
 	//on submit
 	const onSubmit = async (event) => {
 		event.preventDefault();
 
 		const formData = new FormData(event.target);
+
+		//validation
+		if (!validate(formData))
+			return false;
 
 		//build form data
 		const body = {
@@ -76,6 +109,13 @@ const NoteEntry = ({ match, history }) => {
 					<div className="card">
 						<h1 className="entry-title">{isNew ? 'New' : 'Edit'} Note</h1>
 
+						{formError && (
+							<div className="card form-errors">
+								<strong>Errors:</strong>&#10;
+								{formError}
+							</div>
+						)}
+
 						<div className="form-group">
 							<label>
 								<div className="form-label">Title</div>
@@ -89,7 +129,6 @@ const NoteEntry = ({ match, history }) => {
 									className="form-input"
 									autoComplete="off"
 									disabled={disabled}
-									required
 								/>
 							</label>
 						</div>

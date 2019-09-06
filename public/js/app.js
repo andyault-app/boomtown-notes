@@ -71149,20 +71149,50 @@ var NoteEntry = function NoteEntry(_ref) {
       error = _useState8[0],
       setError = _useState8[1];
 
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(undefined),
+      _useState10 = _slicedToArray(_useState9, 2),
+      formError = _useState10[0],
+      setFormError = _useState10[1];
+
   var isNew = match.params.id === 'new'; //on page load
 
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    setError(undefined);
+    setFormError(undefined);
+    setDisabled(false);
+    setNote({});
+
     if (isNew) {
-      setLoading(false);
-      return;
-    } //if not new, fetch
+      //have to wait one frame so that the page "loads"
+      setTimeout(function () {
+        setLoading(false);
+      }, 0);
+    } else {
+      //if not new, fetch
+      axios.get('/api/notes/' + match.params.id).then(function (response) {
+        setNote(response.data);
+        setLoading(false);
+      })["catch"](setError);
+    }
 
+    return function () {
+      setLoading(true);
+    };
+  }, [match.params.id]);
 
-    axios.get('/api/notes/' + match.params.id).then(function (response) {
-      setNote(response.data);
-      setLoading(false);
-    })["catch"](setError);
-  }, [match.params.id]); //on submit
+  var validate = function validate(formData) {
+    var errs = [];
+    if (!formData.get('title')) errs.push('Title is required');
+    if (!formData.get('content')) errs.push('Content is required');
+
+    if (errs.length) {
+      setFormError(errs.join('\n'));
+      return false;
+    }
+
+    return true;
+  }; //on submit
+
 
   var onSubmit =
   /*#__PURE__*/
@@ -71176,8 +71206,17 @@ var NoteEntry = function NoteEntry(_ref) {
           switch (_context.prev = _context.next) {
             case 0:
               event.preventDefault();
-              formData = new FormData(event.target); //build form data
+              formData = new FormData(event.target); //validation
 
+              if (validate(formData)) {
+                _context.next = 4;
+                break;
+              }
+
+              return _context.abrupt("return", false);
+
+            case 4:
+              //build form data
               body = {
                 'title': formData.get('title'),
                 'content': formData.get('content')
@@ -71203,7 +71242,7 @@ var NoteEntry = function NoteEntry(_ref) {
                 })["catch"](setError);
               }
 
-            case 6:
+            case 8:
             case "end":
               return _context.stop();
           }
@@ -71230,7 +71269,9 @@ var NoteEntry = function NoteEntry(_ref) {
     className: "card"
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
     className: "entry-title"
-  }, isNew ? 'New' : 'Edit', " Note"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+  }, isNew ? 'New' : 'Edit', " Note"), formError && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "card form-errors"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("strong", null, "Errors:"), formError), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "form-group"
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "form-label"
@@ -71242,8 +71283,7 @@ var NoteEntry = function NoteEntry(_ref) {
     defaultValue: note.title,
     className: "form-input",
     autoComplete: "off",
-    disabled: disabled,
-    required: true
+    disabled: disabled
   }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "form-group"
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
