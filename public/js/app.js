@@ -70149,16 +70149,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _views_DefaultLayout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../views/DefaultLayout */ "./resources/js/views/DefaultLayout.js");
 /* harmony import */ var _pages_Index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../pages/Index */ "./resources/js/pages/Index.js");
+/* harmony import */ var _pages_NotFound__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../pages/NotFound */ "./resources/js/pages/NotFound.js");
 
 
 
 
+
+
+var CreateRedirectTo = function CreateRedirectTo(to) {
+  return function () {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+      to: to
+    });
+  };
+};
 
 var App = function App() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_views_DefaultLayout__WEBPACK_IMPORTED_MODULE_2__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     exact: true,
     path: "/",
+    render: CreateRedirectTo('/notes')
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    exact: true,
+    path: "/notes",
     component: _pages_Index__WEBPACK_IMPORTED_MODULE_3__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    component: _pages_NotFound__WEBPACK_IMPORTED_MODULE_4__["default"]
   }))));
 };
 
@@ -70177,6 +70193,7 @@ var App = function App() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -70187,21 +70204,23 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var AppHeader = function AppHeader() {
   var links = {
-    '/': 'List'
+    '/': 'List',
+    '/notes/new': 'Add New'
   };
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-    "class": "app-header"
+    className: "app-header"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    "class": "container"
+    className: "container"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-    "class": "app-header-nav"
+    className: "app-header-nav"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "/",
-    "class": "app-header-nav-logo app-header-link"
+    className: "app-header-nav-logo app-header-link"
   }, "Notes"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-    "class": "app-header-nav-links"
+    className: "app-header-nav-links"
   }, Object.entries(links).map(function (_ref, i) {
     var _ref2 = _slicedToArray(_ref, 2),
         href = _ref2[0],
@@ -70209,10 +70228,10 @@ var AppHeader = function AppHeader() {
 
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
       key: i,
-      "class": "app-header-nav-link"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      href: href,
-      "class": "app-header-link"
+      className: "app-header-nav-link"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      to: href,
+      className: "app-header-link"
     }, label));
   })))));
 };
@@ -70236,11 +70255,34 @@ __webpack_require__.r(__webpack_exports__);
 
 var Index = function Index() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    "class": "container page"
+    className: "container page"
   }, "Index");
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Index);
+
+/***/ }),
+
+/***/ "./resources/js/pages/NotFound.js":
+/*!****************************************!*\
+  !*** ./resources/js/pages/NotFound.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var NotFound = function NotFound() {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "fullscreen"
+  }, "Sorry! That page wasn't found.");
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (NotFound);
 
 /***/ }),
 

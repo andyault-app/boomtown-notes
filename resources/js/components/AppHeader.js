@@ -1,22 +1,24 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const AppHeader = () => {
 	const links = {
-		'/': 'List'
+		'/': 'List',
+		'/notes/new': 'Add New'
 	};
 
 	return (
-		<header class="app-header">
-			<div class="container">
-				<nav class="app-header-nav">
-					<a href="/" class="app-header-nav-logo app-header-link">
+		<header className="app-header">
+			<div className="container">
+				<nav className="app-header-nav">
+					<a href="/" className="app-header-nav-logo app-header-link">
 						Notes
 					</a>
 
-					<ul class="app-header-nav-links">
+					<ul className="app-header-nav-links">
 						{Object.entries(links).map(([href, label], i) => (
-							<li key={i} class="app-header-nav-link">
-								<a href={href} class="app-header-link">{label}</a>
+							<li key={i} className="app-header-nav-link">
+								<Link to={href} className="app-header-link">{label}</Link>
 							</li>
 						))}
 					</ul>
