@@ -6,7 +6,7 @@ From the project directory, run `cp database/database.sqlite.example database/da
 
 ## Initializing environment variables
 
-From the project directory, run `cp .env.example .env`;
+From the project directory, run `cp .env.example .env`.
 
 ## If you're using Homestead
 
