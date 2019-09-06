@@ -10,7 +10,7 @@
 //base
 * { box-sizing: border-box; }
 
-html, body {
+html, body, .app {
 	position: relative;
 	min-width: 100vw;
 	min-height: 100vh;
@@ -29,7 +29,14 @@ body {
 	background: #eee;
 }
 
-//layouts.index
+.app {
+	display: flex;
+	flex-direction: column;
+}
+
+//layout
+.main { flex-grow: 1; }
+
 .app-header {
 	display: flex;
 	position: relative;
@@ -41,6 +48,7 @@ body {
 }
 
 .container {
+	position: relative;
 	width: 1200px;
 	margin: 0 auto;
 }
@@ -82,6 +90,17 @@ body {
 .page {
 	padding: 2rem 0;
 }
+
+.card {
+	padding: 1rem;
+	background: #fff;
+	border-radius: 0.25rem;
+	// box-shadow: 0.1rem 0.1rem 0.25rem rgba(0, 0, 0, 0.25);
+	border: 1px solid #666;
+}
+
+.w-100 { width: 100%; }
+.text-center { text-align: center; }
 
 //not found
 .fullscreen {

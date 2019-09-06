@@ -70207,7 +70207,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var AppHeader = function AppHeader() {
   var links = {
-    '/': 'List',
+    '/notes': 'List',
     '/notes/new': 'Add New'
   };
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
@@ -70216,8 +70216,8 @@ var AppHeader = function AppHeader() {
     className: "container"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
     className: "app-header-nav"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "/",
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/",
     className: "app-header-nav-logo app-header-link"
   }, "Notes"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "app-header-nav-links"
@@ -70278,8 +70278,12 @@ __webpack_require__.r(__webpack_exports__);
 
 var NotFound = function NotFound() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    "class": "fullscreen"
-  }, "Sorry! That page wasn't found.");
+    className: "fullscreen page"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "card"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    "class": "text-center"
+  }, "404"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sorry! That page wasn't found.")));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (NotFound);
@@ -70303,7 +70307,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var DefaultLayout = function DefaultLayout(_ref) {
   var children = _ref.children;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_AppHeader__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null, children));
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_AppHeader__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
+    "class": "main"
+  }, children));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (DefaultLayout);

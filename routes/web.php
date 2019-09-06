@@ -11,19 +11,7 @@
 |
 */
 
-// Route::permanentRedirect('/', '/notes');
-
-// Route::prefix('/notes')->group(function() {
-// 	Route::get('', function() {
-// 		$notes = App\Note::all();
-
-// 		return view('index')
-// 			->with('notes', $notes);
-// 	});
-
-// 	Route::get('{id}', function(App\Note $id) {
-// 		return 'Note';
-// 	});
-// });
-
-Route::view('/{path?}', 'index');
+//all of our non-api routing will be handled by react
+Route::fallback(function() {
+	return view('index');
+});

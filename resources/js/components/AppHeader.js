@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const AppHeader = () => {
 	const links = {
-		'/': 'List',
+		'/notes': 'List',
 		'/notes/new': 'Add New'
 	};
 
@@ -11,9 +11,9 @@ const AppHeader = () => {
 		<header className="app-header">
 			<div className="container">
 				<nav className="app-header-nav">
-					<a href="/" className="app-header-nav-logo app-header-link">
+					<Link to="/" className="app-header-nav-logo app-header-link">
 						Notes
-					</a>
+					</Link>
 
 					<ul className="app-header-nav-links">
 						{Object.entries(links).map(([href, label], i) => (

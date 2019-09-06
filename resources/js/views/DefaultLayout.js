@@ -6,7 +6,7 @@ const DefaultLayout = ({ children }) => (
 	<>
 		<AppHeader />
 
-		<main>
+		<main class="main">
 			{children}
 		</main>
 	</>
