@@ -53,6 +53,8 @@ body {
 	margin: 0 auto;
 }
 
+.container-small { width: 600px; }
+
 .app-header-nav {
 	display: flex;
 	height: 100%;
@@ -92,7 +94,10 @@ body {
 }
 
 .card {
+	display: flex;
 	padding: 1rem;
+	flex-direction: column;
+
 	background: #fff;
 	border-radius: 0.25rem;
 	// box-shadow: 0.1rem 0.1rem 0.25rem rgba(0, 0, 0, 0.25);
@@ -109,4 +114,53 @@ body {
 	height: 100%;
 	justify-content: center;
 	align-items: center;
+}
+
+//note entry
+.form-group {
+	&:not(:last-child) { margin-bottom: 1rem; }
+
+	label {
+		display: flex;
+		width: 100%;
+		flex-direction: column;
+	}
+}
+
+.form-label {
+	font-size: 0.875rem;
+	font-weight: bold;
+}
+
+.form-input {
+	padding: 0.5em;
+
+	font-size: 1rem;
+	border-radius: 0.25rem;
+	border: 1px solid #666;
+	background: #fff;
+
+	&::placeholder { color: #666; }
+}
+
+.textarea {
+	min-height: 6em;
+	resize: vertical;
+
+	font-family: unset;
+}
+
+.button {
+	padding: 0.5em 1em;
+
+	font-size: 1rem;
+	border: none;
+	border-radius: 0.25rem;
+	color: #fff;
+}
+
+.button-submit {
+	align-self: flex-end;
+
+	background: #36f;
 }
